@@ -17,7 +17,7 @@ const SingleBlog = () => {
   }
 
   return (
-    <div>
+    <div className="mb-10">
       <div 
         className='ml-8 text-left text-2xl text-slate-800 '>
           Автор: { currentBlog.user.username }, создано: { dateTransform(currentBlog.dateAdded) }

@@ -9,19 +9,19 @@ const HeaderAccount = () => {
   const { exitButtonBool, setExitButtonBool } = useExitButton()
   const exitButtonRef = useRef()
 
-  const handleExitButton = () => {
-    setExitButtonBool(!exitButtonBool)
+  // const handleExitButton = () => {
+  //   setExitButtonBool(!exitButtonBool)
 
-    document.addEventListener('mousedown', handler)
-    function handler(event) {
-      if (exitButtonRef.current === null) {
-        document.removeEventListener('mousedown', handler)
-      } else if (!exitButtonRef.current.contains(event.target)) {
-        setExitButtonBool(false)
-        document.removeEventListener('mousedown', handler)
-      } 
-    }
-  }
+  //   document.addEventListener('mousedown', handler)
+  //   function handler(event) {
+  //     if (exitButtonRef.current === null) {
+  //       document.removeEventListener('mousedown', handler)
+  //     } else if (!exitButtonRef.current.contains(event.target)) {
+  //       setExitButtonBool(false)
+  //       document.removeEventListener('mousedown', handler)
+  //     } 
+  //   }
+  // }
 
   if (user) {
     return (
@@ -54,17 +54,15 @@ export default HeaderAccount
 
 const activeNavButton = `
   font-semibold
-  w-[130px]
   text-center
   bg-gray-300 dark:bg-gray-900  
-  text-slate-800 text-2xl
-  ml-2 py-3`
+  text-slate-800 text-xl
+  mx-1 px-3 py-2`
 const passiveNavButton = `
   font-semibold
-  w-[130px]
   text-center
   bg-gray-200 dark:bg-gray-900 
-  text-slate-500 hover:text-slate-700 text-2xl
-  ml-2 py-3`
+  text-slate-500 hover:text-slate-700 text-xl
+  mx-1 px-3 py-2`
 
 

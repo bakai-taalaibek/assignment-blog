@@ -10,9 +10,7 @@ export const blogRecreated = (array) => {
               case 'youtube':
                 return (
                   <iframe
-                    className='my-5 mx-auto'
-                    width='853'
-                    height='480'
+                    className='aspect-video w-full'
                     src={element.content}
                     allowFullScreen
                     title='Embedded youtube'

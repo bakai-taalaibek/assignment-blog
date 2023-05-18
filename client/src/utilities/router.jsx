@@ -3,8 +3,10 @@ import App from "../App";
 import ErrorPage from "../components/ErrorPage";
 import { Entry } from "../components/Entry"
 import BlogList from "../components/BlogList";
-import Profile from "../components/Profile";
+import ProfileList from "../components/ProfileList";
 import SingleBlog from "../components/SingleBlog";
+import BlogById from '../components/BlogById'
+import Profile from '../components/Profile'
 
 export const router = createBrowserRouter([
   {
@@ -23,13 +25,19 @@ export const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+        children: [
+          {
+            path: '',
+            element: <ProfileList/>,
+          },
+          {
+            path: 'blog/:blogId',
+            element: <BlogById />,
+          },
+        ]
       },
       {
         path: 'blog/:blogId',
-        element: <SingleBlog />,
-      },
-      {
-        path: 'user/:blogId',
         element: <SingleBlog />,
       },
     ],

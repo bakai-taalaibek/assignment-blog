@@ -30,6 +30,6 @@ const exitButtonStyle = `
   w-[90px]
   font-semibold
   bg-sky-100 dark:bg-gray-900 
-  text-slate-500 hover:text-slate-700 text-2xl
-  mx-2 py-3`
+  text-slate-500 hover:text-slate-700 text-xl
+  mx-1 px-3 py-2`
 

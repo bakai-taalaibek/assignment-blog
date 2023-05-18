@@ -1,9 +1,9 @@
 import Header from './components/Header'
-import { Outlet } from "react-router-dom";
-import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useUser, usePage } from './utilities/zustand'
 import { useQuery } from 'react-query'
-import blogService from './services/blogs';
+import blogService from './services/blogs'
 
 function App() {
   const { setUser } = useUser()

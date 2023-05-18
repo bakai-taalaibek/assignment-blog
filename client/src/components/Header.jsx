@@ -26,10 +26,10 @@ const headerStyle = `
 const activeNavButton = `
   font-semibold
   bg-gray-300 
-  text-slate-800 text-2xl
-  mx-2 px-4 py-3`
+  text-slate-800 text-xl
+  mx-1 px-3 py-2`
 const passiveNavButton = `
   font-semibold
   bg-gray-200 dark:bg-gray-900 
-  text-slate-500 hover:text-slate-700 text-2xl
-  mx-2 px-4 py-3`
+  text-slate-500 hover:text-slate-700 text-xl
+  mx-1 px-3 py-2`

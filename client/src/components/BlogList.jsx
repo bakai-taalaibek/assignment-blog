@@ -38,12 +38,12 @@ const BlogList = () => {
         return (
           <div className={ oneBlog } key={ index }>
             <Link 
-              className='text-4xl font-bold text-blue-800' 
+              className='text-3xl font-bold text-blue-800' 
               to={`blog/${blog.id}`} >
                 { blog.blogPost[0].content }
             </Link>
             <span 
-              className='text-lg'>
+              className='text-md'>
                 Автор: { blog.user.username }, создано: { dateTransform(blog.dateAdded) }
             </span>
           </div>
@@ -62,4 +62,4 @@ const oneBlog =`
   shadow-lg 
   rounded-md 
   bg-sky-50 
-  m-4 mx-auto p-2 [&>*]:m-2`
+  m-2 my-4 mx-auto p-1 [&>*]:m-2`
