@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import register from '../services/register'
 import blogService from '../services/blogs'
+import { useUser } from '../utilities/zustand'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { setUser } from '../reducers/user'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const dispatch = useDispatch()
+  const { setUser } = useUser()
   const navigate = useNavigate()
 
   const handleRegistration = async (event) => {
@@ -21,13 +20,13 @@ const Register = () => {
       const user = await register({
         username, password
       })
-      dispatch(setUser(user))
+      setUser(user)
       setUsername('')
       setPassword('')
       setPasswordConfirmation('')
       blogService.setToken(user.token)
       window.localStorage.setItem(
-        'loggedUser', JSON.stringify(user)
+        'loggedWelbexUser', JSON.stringify(user)
       )
       navigate('/')      
     }

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({
   dateAdded: Date,
-  blogPost: { header: String, paragraph: String },
+  blogPost: Array,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

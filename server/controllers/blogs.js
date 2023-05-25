@@ -2,7 +2,7 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-const blogsPerPage = 5
+const blogsPerPage = 20
 
 blogsRouter.get('/:page', async (request, response) => {
   const blogs = await Blog.find({})

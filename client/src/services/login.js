@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { baseUrl } from '../utilities/url'
+import { baseUrl } from '../utilities/zustand'
 
 const fullUrl = `${baseUrl}/api/login`
 

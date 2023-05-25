@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import { useUser } from '../utilities/zustand'
 import { useNavigate } from 'react-router-dom'
-import { setUser } from '../reducers/user'
-import { useDispatch } from 'react-redux'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const { setUser } = useUser()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -17,12 +16,12 @@ const Login = () => {
       const user = await loginService({
         username, password,
       })
-      dispatch(setUser(user))
+      setUser(user)
       setUsername('')
       setPassword('')
       blogService.setToken(user.token)
       window.localStorage.setItem(
-        'loggedUser', JSON.stringify(user)
+        'loggedWelbexUser', JSON.stringify(user)
       )
       navigate('/')
     }
@@ -41,7 +40,8 @@ const Login = () => {
                   type='text'
                   value={ username }
                   name='Username'
-                  onChange={({ target }) => setUsername(target.value)}/>
+                  onChange={({ target }) => setUsername(target.value)}
+          />
         </div>
 
         <div>
@@ -50,9 +50,9 @@ const Login = () => {
                   type='password'
                   value={ password }
                   name='Password'
-                  onChange={({ target }) => setPassword(target.value)}/>
+                  onChange={({ target }) => setPassword(target.value)}
+          />
         </div>
-        
         <button className={ button } type='submit'>Войти</button>
       </form>
     </div>

@@ -1,20 +1,19 @@
 import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useUser, usePage } from './utilities/zustand'
 import { useQuery } from 'react-query'
 import blogService from './services/blogs'
-import { useDispatch, useSelector } from 'react-redux'
-import { setUser } from './reducers/user'
 
 function App() {
-  const page = useSelector(state => state.page)
-  const dispatch = useDispatch()
+  const { setUser } = useUser()
+  const { page } = usePage()
 
   useEffect(() => {    
-    const loggedUserJSON = window.localStorage.getItem('loggedUser')   
+    const loggedUserJSON = window.localStorage.getItem('loggedWelbexUser')    
     if (loggedUserJSON) {      
       const storedUser = JSON.parse(loggedUserJSON)      
-      dispatch(setUser(storedUser))      
+      setUser(storedUser)      
       blogService.setToken(storedUser.token)    
     }  
   }, [])
@@ -28,7 +27,7 @@ function App() {
         <div className={ contentArea }>
           { isLoading
             ? <div className='text-3xl text-slate-700 mt-10'>Loading...</div>
-            : <Outlet />}
+            : <Outlet />}          
         </div>
       </div>
     </div>

@@ -7,7 +7,6 @@ import ProfileList from "../components/ProfileList";
 import SingleBlog from "../components/SingleBlog";
 import BlogById from '../components/BlogById'
 import Profile from '../components/Profile'
-import CreateBlog from "../components/CreateBlog";
 
 export const router = createBrowserRouter([
   {
@@ -22,10 +21,6 @@ export const router = createBrowserRouter([
       {
         path: 'entry',
         element: <Entry />,
-      },
-      {
-        path: 'new',
-        element: <CreateBlog />,
       },
       {
         path: 'profile',
