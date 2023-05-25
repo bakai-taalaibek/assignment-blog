@@ -1,28 +1,13 @@
 import { NavLink } from 'react-router-dom'
-import { useUser } from '../utilities/zustand'
 import { ExitButton } from './ExitButton'
-import { useExitButton } from '../utilities/zustand'
 import { useRef } from 'react'
+import { useSelector } from 'react-redux'
  
 const HeaderAccount = () => {
-  const { user } = useUser()
-  const { exitButtonBool, setExitButtonBool } = useExitButton()
   const exitButtonRef = useRef()
+  const user = useSelector((state) => state.user)
 
-  // const handleExitButton = () => {
-  //   setExitButtonBool(!exitButtonBool)
-
-  //   document.addEventListener('mousedown', handler)
-  //   function handler(event) {
-  //     if (exitButtonRef.current === null) {
-  //       document.removeEventListener('mousedown', handler)
-  //     } else if (!exitButtonRef.current.contains(event.target)) {
-  //       setExitButtonBool(false)
-  //       document.removeEventListener('mousedown', handler)
-  //     } 
-  //   }
-  // }
-
+  
   if (user) {
     return (
       <div className='flex  items-center'>
@@ -30,6 +15,12 @@ const HeaderAccount = () => {
           to="profile"
           className={ ({ isActive }) => isActive ? activeNavButton : passiveNavButton } >
             Профиль 
+        </NavLink>
+
+        <NavLink  
+          to="new"
+          className={ ({ isActive }) => isActive ? activeNavButton : passiveNavButton } >
+            Создать 
         </NavLink>
         
         <span ref={ exitButtonRef }>

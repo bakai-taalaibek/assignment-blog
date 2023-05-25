@@ -1,16 +1,16 @@
-import { useExitButton } from '../utilities/zustand'
-import { useUser } from '../utilities/zustand'
 import { useNavigate } from 'react-router-dom'
 import blogServices from '../services/blogs'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../reducers/user'
+import { setExitButtonBool } from '../reducers/exitButton'
 
 export const ExitButton = () => {
-  const { setExitButtonBool } = useExitButton()
-  const { setUser } = useUser()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleExit = () => {
     setExitButtonBool(false)
-    setUser(null)
+    dispatch(setUser(null))
     blogServices.setToken(null)
     navigate('')
   }

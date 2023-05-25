@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { baseUrl } from '../utilities/zustand'
+import { baseUrl } from '../utilities/url'
 
 const fullUrl = `${baseUrl}/api/blogs`
 
@@ -28,7 +28,7 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
-
+  console.log(newObject)
   const response = await axios.post(fullUrl, newObject, config)
   return response.data
 }

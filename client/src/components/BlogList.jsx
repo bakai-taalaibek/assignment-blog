@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom'
 import { useQueryClient } from 'react-query'
-import { usePage } from '../utilities/zustand'
+import { setPage } from '../reducers/page'
+import { useSelector, useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
 
 const BlogList = () => {
   const queryClient = useQueryClient()
-  const { setPage, page } = usePage()
+  const dispatch = useDispatch()
+  const page = useSelector(state => state.page)
   const cachedResult = queryClient.getQueryData(['blogs', page])
+  const [ query, setQuery ] = useState('')
+  const [ filteredBlogs, setFilteredBlogs ] = useState(cachedResult.blogs)
+
+  useEffect(() => {
+    setFilteredBlogs(cachedResult.blogs)
+  }, [page])
 
   const dateTransform = (ISOdate) => {
     const data = new Date(ISOdate)
@@ -13,12 +22,13 @@ const BlogList = () => {
   }
 
   const handlePageChange = (number) => {
-    setPage(number)
-    queryClient.invalidateQueries('blogs')
+    dispatch(setPage(number))
+    queryClient.invalidateQueries(['blogs', page])
   }
 
   const Buttons = () => {
     const numberOfButtons = Array.from(Array(cachedResult.pages).keys())
+    console.log(cachedResult.pages)
     return (
       numberOfButtons.map(number => {
         return (
@@ -31,27 +41,50 @@ const BlogList = () => {
     )
   }
 
-  return (
-    <div>
-      < Buttons />
-      { cachedResult.blogs.map((blog, index) => {
-        return (
-          <div className={ oneBlog } key={ index }>
-            <Link 
-              className='text-3xl font-bold text-blue-800' 
-              to={`blog/${blog.id}`} >
-                { blog.blogPost[0].content }
-            </Link>
-            <span 
-              className='text-md'>
-                Автор: { blog.user.username }, создано: { dateTransform(blog.dateAdded) }
-            </span>
-          </div>
-        )
-      }) }
-      < Buttons />
-    </div>
-  )
+  const handleQuery = (event) => {
+    setQuery(event.target.value)
+
+    const filteredArray = cachedResult.blogs.filter(blog => {
+      return blog.blogPost.header.toLowerCase().includes(event.target.value.toLowerCase()) 
+      || blog.blogPost.paragraph.toLowerCase().includes(event.target.value.toLowerCase())
+    })
+    setFilteredBlogs(filteredArray)
+  }
+
+  if (cachedResult !== undefined) {
+    return (
+      <div>
+
+        <span>Поиск на странице</span>
+        <input className='w-[95%] border border-slate-800 mx-10' value={ query } onChange={ handleQuery }/>
+
+        < Buttons />
+        { filteredBlogs.map((blog, index) => {
+          return (
+            <div className={ oneBlog } key={ index }>
+
+              <div className='text-3xl font-bold text-blue-800' >
+                { blog.blogPost.header }
+              </div>
+
+              <div >
+                <span 
+                  className='text-md'>
+                    Автор: { blog.user.username }, создано: { dateTransform(blog.dateAdded) }
+                </span> 
+                <Link to={`blog/${blog.id}`} className='float-right text-blue-700 font-semibold'> 
+                  Подробнее
+                </Link>
+              </div>
+
+            </div>
+          )
+        }) }
+        < Buttons />
+      </div>
+    )
+  }
+
 }
 
 export default BlogList

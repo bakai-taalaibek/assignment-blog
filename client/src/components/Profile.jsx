@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query'
 import blogService from '../services/blogs'
 import { Outlet } from 'react-router-dom'
-import { useUser } from '../utilities/zustand'
+import { useSelector } from 'react-redux'
 
 const Profile = () => {
-  const { user } = useUser()
+  const user = useSelector((state) => state.user)
 
   const { isLoading } = useQuery('usersBlogs', () => blogService.getUsersBlogs(user.username)) 
 
