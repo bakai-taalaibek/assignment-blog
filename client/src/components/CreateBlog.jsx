@@ -1,52 +1,66 @@
-import { useBlogForm, useBlogConstructor, usePage } from '../utilities/zustand'
-import BlogConstructor from './blogElements/BlogConstructor'
 import blogService from '../services/blogs'
-import { blogRecreated } from './blogRecreated'
 import { useQueryClient } from 'react-query'
+import { useSelector, useDispatch } from 'react-redux'
+import { blogReset, updateBlogParagraph, updateBlogHeader } from '../reducers/blogReducer'
+import { blogHelperReset } from '../reducers/blogHelperReducer'
+import { blogRendered } from './blogRendered'
+import { useQuery } from 'react-query'
 
 const CreateBlog = () => {
-  const { setBlogForm } = useBlogForm()
-  const { blogElements, reset, addElement, blogEditHelper, setBlogEditHelper } = useBlogConstructor()
   const queryClient = useQueryClient()
-  const { page } = usePage()
+  const dispatch = useDispatch()
+  const blog = useSelector((state) => state.blog)
+  const user = useSelector(state => state.user)
+  const blogHelper = useSelector((state) => state.blogHelper)
+  const page = useSelector(state => state.page)
+  const { refetch } = useQuery('usersBlogs', () => blogService.getUsersBlogs(user.username))
 
   const handleSubmit = async () => {
-    await blogService.create(blogElements)
+    await blogService.create(blog)
     queryClient.invalidateQueries(['blogs', page])
     queryClient.invalidateQueries('usersBlogs')
-    reset()    
+    dispatch(blogReset())
+    console.log(blog)
+    refetch()
   }
 
   const handleSaveChanges = async () => {
-    const newBlog = { dateAdded: blogEditHelper.dateAdded, blogPost: blogElements }
-    await blogService.update(newBlog, blogEditHelper.id)
+    const newBlog = { dateAdded: blogHelper.date, blogPost: blog }
+    await blogService.update(newBlog, blogHelper.id)
     queryClient.invalidateQueries(['blogs', page])
     queryClient.invalidateQueries('usersBlogs')
-    setBlogEditHelper(false, '', '')
-    reset()    
+    dispatch(blogHelperReset())  
+    dispatch(blogReset())     
+    refetch()
   }
-
+  console.log(blogHelper)
   return (
     <div >
-      <button 
-        onClick={ () => setBlogForm(false) } 
-        className={ button + 'bg-gray-200 '}>
-          Открыть лист моих блогов
-      </button>
       <div className='font-semibold text-3xl text-blue-800 mb-3'>Создать блог</div>
 
-      <BlogConstructor className='w-full '/>
-      <button className={ button } onClick={() => addElement('heading')}>Добавить подзаголовок</button>
-      <button className={ button } onClick={() => addElement('paragraph')}>Добавить абзац</button>
-      <button className={ button } onClick={() => addElement('image')}>Добавить ссылку на изображение</button>
-      <button className={ button } onClick={() => addElement('youtube')}>Добавить ссылку на Youtube видео</button>
-      
+      <div className='flex items-center m-2 text-lg mb-8'>
+        <span className='font-bold '>Заголовок:</span>         
+        <textarea className={ input }
+          value={ blog.header }
+          onChange={(event) => dispatch(updateBlogHeader(event.target.value))}
+        ></textarea>
+      </div>
+
+      <div className='flex flex-wrap justify-center items-center m-2 text-lg'>
+        <span className='font-bold '>Содержание:</span>      
+        <textarea className={ input }
+          placeholder='Введите текст блога'
+          value={ blog.paragraph }
+          onChange={(event) => dispatch(updateBlogParagraph(event.target.value))}
+        ></textarea>
+      </div>
+
       <button 
-        onClick={ () => reset() } 
+        onClick={ () => dispatch(blogReset()) } 
         className={ button + 'bg-red-600 text-gray-50'}>
           Обнулить
       </button>
-      { blogEditHelper.status 
+      { blogHelper.status 
         ? <button 
             className={ button + 'bg-cyan-400 text-gray-50'}
             onClick={handleSaveChanges}>
@@ -56,8 +70,10 @@ const CreateBlog = () => {
             className={ button + 'bg-green-600 text-gray-50'}
             onClick={handleSubmit}>
               Сохранить
-          </button> }
-      {blogRecreated(blogElements)}
+          </button> 
+      }
+      
+      { blogRendered(blog) }
     </div>
   ) 
 }
@@ -71,6 +87,10 @@ const button = `
   p-2 m-1 `
 
 
+const input = `
+w-7/12 min-w-[calc(250px)] flex-grow
+border border-gray-700
+mx-2 p-1`
 
 
 

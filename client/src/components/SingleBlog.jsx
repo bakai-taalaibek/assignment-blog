@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom"
-import { blogRecreated } from "./blogRecreated"
+import { blogRendered } from "./blogRendered"
 import { useQueryClient } from 'react-query'
-import { usePage } from '../utilities/zustand'
+import { useSelector } from "react-redux"
 
 const SingleBlog = () => {
   const queryClient = useQueryClient()
   const { blogId } = useParams()
-  const { page } = usePage()
+  const page = useSelector(state => state.page)
 
   let results = queryClient.getQueryData(['blogs', page])
   const currentBlog = results.blogs.find(blog => blog.id === blogId)
@@ -22,7 +22,7 @@ const SingleBlog = () => {
         className='ml-8 text-left text-2xl text-slate-800 '>
           Автор: { currentBlog.user.username }, создано: { dateTransform(currentBlog.dateAdded) }
       </div>
-      {blogRecreated(currentBlog.blogPost)}
+      {blogRendered(currentBlog.blogPost)}
     </div>
   )
 }

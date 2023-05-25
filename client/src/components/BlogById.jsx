@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { blogRecreated } from "./blogRecreated"
+import { blogRendered } from "./blogRendered"
 import { useQueryClient } from 'react-query'
 
 const BlogById = () => {
@@ -7,7 +7,6 @@ const BlogById = () => {
   const { blogId } = useParams()
 
   let results = queryClient.getQueryData('usersBlogs')
-  console.log(results)
   const currentBlog = results.blogs.find(blog => blog.id === blogId)
 
   const dateTransform = (ISOdate) => {
@@ -21,7 +20,7 @@ const BlogById = () => {
         className='ml-8 text-left text-2xl text-slate-800 '>
           Автор: { currentBlog.user.username }, создано: { dateTransform(currentBlog.dateAdded) }
       </div>
-      {blogRecreated(currentBlog.blogPost)}
+      {blogRendered(currentBlog.blogPost)}
     </div>
   )
 }

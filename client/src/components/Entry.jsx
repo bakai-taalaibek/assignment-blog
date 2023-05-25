@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import Register from './Register'
 import Login from './Login'
-import { useUser } from '../utilities/zustand'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export const Entry = () => {
   const [registrationBool, setRegistrationBool] = useState(false)
-  const { user } = useUser()
   const navigate = useNavigate()
+  const user = useSelector((state) => state.user.value)
 
   useEffect(() => {
     if (user) {
