@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query'
 const BlogById = () => {
   const queryClient = useQueryClient()
   const { blogId } = useParams()
+  
 
   let results = queryClient.getQueryData('usersBlogs')
   const currentBlog = results.blogs.find(blog => blog.id === blogId)

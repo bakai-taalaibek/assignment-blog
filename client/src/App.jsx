@@ -17,7 +17,7 @@ function App() {
       dispatch(setUser(storedUser))      
       blogService.setToken(storedUser.token)    
     }  
-  }, [])
+  }, [setUser])
 
   const { isLoading } = useQuery(['blogs', page], () => blogService.getBlogs(page))  
 
